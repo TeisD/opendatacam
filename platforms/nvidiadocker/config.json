@@ -1,0 +1,5 @@
+{
+  "PATH_TO_YOLO_DARKNET" : "/var/local/darknet",
+  "VIDEO_INPUT": "file",
+  "NEURAL_NETWORK": "yolov3-tiny"
+}
