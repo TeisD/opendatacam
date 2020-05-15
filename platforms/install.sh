@@ -4,6 +4,7 @@
 set -e
 
 # Each opendatacam release should set the correct version here and tag appropriatly on github
+# TODO: CHANGE BACK TO OPENDATACAM
 #VERSION=v3.0.0-beta.2
 VERSION=
 #BASE_URL=https://raw.githubusercontent.com/opendatacam/opendatacam

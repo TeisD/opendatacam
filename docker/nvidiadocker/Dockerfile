@@ -3,6 +3,7 @@ ARG CUDNN_VERSION=7
 ARG UBUNTU_VERSION=16.04
 ARG PYTHON_VERSION=3
 ARG OPENCV_VERSION=4.1.1
+# TODO: CHANGE BACK TO OPENDATACAM
 ARG OPENDATACAM_REPO=https://github.com/teisd/opendatacam
 
 # This is a dev image, needed to compile OpenCV with CUDA
