@@ -42,27 +42,27 @@
     "yolov4": {
       "data": "cfg/coco.data",
       "cfg": "cfg/yolov4-416x416.cfg",
-      "weights": "yolov4.weights"
+      "weights": "weights/yolov4.weights"
     },
     "yolov3": {
       "data": "cfg/coco.data",
       "cfg": "cfg/yolov3.cfg",
-      "weights": "yolov3.weights"
+      "weights": "weights/yolov3.weights"
     },
     "yolov3-tiny-prn": {
       "data": "cfg/coco.data",
       "cfg": "cfg/yolov3-tiny-prn.cfg",
-      "weights": "yolov3-tiny-prn.weights"
+      "weights": "weights/yolov3-tiny-prn.weights"
     },
     "yolov3-tiny": {
       "data": "cfg/coco.data",
       "cfg": "cfg/yolov3-tiny.cfg",
-      "weights": "yolov3-tiny.weights"
+      "weights": "weights/yolov3-tiny.weights"
     },
     "yolov2-voc": {
       "data": "cfg/voc.data",
       "cfg": "cfg/yolo-voc.cfg",
-      "weights": "yolo-voc.weights"
+      "weights": "weights/yolo-voc.weights"
     }
   },
   "TRACKER_ACCURACY_DISPLAY": {
