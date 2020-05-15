@@ -4,8 +4,10 @@
 set -e
 
 # Each opendatacam release should set the correct version here and tag appropriatly on github
-BASE_URL=https://raw.githubusercontent.com/opendatacam/opendatacam
-VERSION=v3.0.0-beta.2
+#VERSION=v3.0.0-beta.2
+VERSION=
+#BASE_URL=https://raw.githubusercontent.com/opendatacam/opendatacam
+BASE_URL=localhost:3000
 
 PLATFORM=undefined
 INDEX=undefined
@@ -79,7 +81,10 @@ case $argument in
     
     echo "Download run script for platform: $PLATFORM ..."
     # Get the run-docker script
-    wget -N ${BASE_URL}/${VERSION}/docker/platforms/${PLATFORM}/run.sh
+    wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/run.sh
+
+    echo "Set the run script to version: $VERSION ..."
+    sed -i ".bak" -e "s/OPENDATACAM_VERSION/$VERSION/g" run.sh
 
     # Chmod to give exec permissions
     chmod +x run.sh
@@ -90,11 +95,13 @@ case $argument in
 
     # Get the config file for the platform
     echo "Downloading platform-specific configuration  ..."
-    wget -N ${BASE_URL}/${VERSION}/platforms/{$PLATFORM}/config.json -O config.platform.json
+    wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/config.json -O config.platform.json
 
     # Merge the configuration files
-    head -n -1 config.platform.json > config.json
-    tail -n -1 config.default.json >> config.json
+    sed ';$d' config.platform.json > config.json
+    truncate -s-1 config.json
+    echo "," >> config.json
+    sed '1d' config.default.json >> config.json
     rm config.default.json
     rm config.platform.json
 
@@ -109,7 +116,9 @@ case $argument in
 
     # Run additional 
     echo "Download default neural network weights ..."
-    wget -N ${BASE_URL}/${VERSION}/platforms/NEURAL_NETWORK | wget -P /data/weights -i
+    wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/DEFAULT_NEURAL_NETWORK
+    wget -N -i DEFAULT_NEURAL_NETWORK
+    rm DEFAULT_NEURAL_NETWORK
 
     echo "Download, install and run opendatacam docker container"
     sudo run.sh
