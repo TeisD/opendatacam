@@ -121,7 +121,7 @@ case $argument in
     rm DEFAULT_NEURAL_NETWORK
 
     echo "Download, install and run opendatacam docker container"
-    sudo run.sh
+    sudo ./run.sh
 
     # Message that docker container has been started and opendatacam will be available shorty on <IP>
     echo "OpenDataCam docker container installed successfully, it might take up to 1-2 min to start the node app and the webserver"
