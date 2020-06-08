@@ -16,8 +16,6 @@ INDEX=undefined
 
 PLATFORM_OPTIONS=("nano" "tx2" "xavier" "nvidiadocker")
 
-echo "Installing opendatacam docker image"
-
 display_usage() {
   echo
   echo "Usage: $0"
@@ -83,7 +81,7 @@ case $argument in
     
     echo "Download run script for platform: $PLATFORM ..."
     # Get the run-docker script
-    wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/run.sh
+    wget -nv --show-progress -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/run.sh
 
     echo "Set the run script to version: $VERSION ..."
     sed -i -e "s/OPENDATACAM_VERSION/$VERSION/g" run.sh
@@ -93,11 +91,11 @@ case $argument in
     
     # Get the config file
     echo "Download config file ..."
-    wget -N ${BASE_URL}/${VERSION}/config.json -O config.default.json
+    wget -nv --show-progress -N ${BASE_URL}/${VERSION}/config.json -O config.default.json
 
     # Get the config file for the platform
     echo "Downloading platform-specific configuration  ..."
-    wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/config.json -O config.platform.json
+    wget -nv --show-progress -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/config.json -O config.platform.json
 
     # Merge the configuration files
     sed ';$d' config.platform.json > config.json
@@ -114,11 +112,11 @@ case $argument in
     mkdir -p data/weights
 
     echo "Download demo video ..."
-    wget -N ${BASE_URL}/${VERSION}/public/static/demo/demo.mp4 -O data/videos/demo.mp4
+    wget -nv --show-progress -N ${BASE_URL}/${VERSION}/public/static/demo/demo.mp4 -O data/videos/demo.mp4
 
     # Run additional 
     echo "Download default neural network weights ..."
-    wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/DEFAULT_NEURAL_NETWORK
+    wget -nv --show-progress -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/DEFAULT_NEURAL_NETWORK
     wget -N -i DEFAULT_NEURAL_NETWORK
     rm DEFAULT_NEURAL_NETWORK
 
