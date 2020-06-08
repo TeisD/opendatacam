@@ -21,5 +21,5 @@ shift
 # and we didn't find a way yet to be smart about this and guess which device to mount
 # TODO change back to normal opendatacam image
 # temporarily run with "sudo run.sh image-name"
-# sudo docker run -d --name opendatacam --restart unless-stopped --runtime nvidia -p 8080:8080 -p 8090:8090 -p 8070:8070 --privileged $DOCKER_VOLUMES $@ opendatacam/opendatacam:OPENDATACAM_VERSION-nano
-sudo docker run -d --name opendatacam --restart unless-stopped --runtime nvidia -p 8080:8080 -p 8090:8090 -p 8070:8070 --privileged $DOCKER_VOLUMES $@
+# docker run -d --name opendatacam --restart unless-stopped --runtime nvidia -p 8080:8080 -p 8090:8090 -p 8070:8070 --privileged $DOCKER_VOLUMES $@ opendatacam/opendatacam:OPENDATACAM_VERSION-nano
+docker run -d --name opendatacam --restart unless-stopped --runtime nvidia -p 8080:8080 -p 8090:8090 -p 8070:8070 --privileged $DOCKER_VOLUMES $@
