@@ -1,22 +1,18 @@
 ARG CUDA_VERSION=9.1
 ARG CUDNN_VERSION=7
 ARG UBUNTU_VERSION=16.04
-ARG PYTHON_VERSION=3
-ARG OPENCV_VERSION=4.1.1
-# TODO: CHANGE BACK TO OPENDATACAM
-ARG OPENDATACAM_REPO=https://github.com/teisd/opendatacam
 
 # This is a dev image, needed to compile OpenCV with CUDA
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${UBUNTU_VERSION} AS build
 
-ARG PYTHON_VERSION
-ARG OPENCV_VERSION
-ARG OPENDATACAM_REPO
+ENV OPENCV_VERSION=4.1.1
+# TODO: CHANGE BACK TO OPENDATACAM
+ENV OPENDATACAM_REPO=https://github.com/teisd/opendatacam
 
 # Install OpenCV dependencies
 RUN apt update && apt purge *libopencv* && apt install -y \
     # Essential OpenCV dependencies
-    build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev curl unzip \
+    build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev curl wget unzip \
     # Gstreamer libs
     libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-libav \
     # FFMPEG
@@ -24,17 +20,17 @@ RUN apt update && apt purge *libopencv* && apt install -y \
     # Image & video libraries
     zlib1g-dev  libwebp-dev libtbb2 libtbb-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev
 
-WORKDIR /var/local/opencv
+WORKDIR /var/local
 
 # Install OpenCV
-RUN curl https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -o opencv.zip && \
-    unzip -q opencv.zip && \
-    mv opencv-${OPENCV_VERSION} opencv
+RUN wget -nv --show-progress --progress=bar:force:noscroll https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip && \
+    unzip opencv.zip && \
+    mv opencv-${OPENCV_VERSION} opencv && \
+    rm opencv.zip
 
 WORKDIR /var/local/opencv/build
 
-RUN cd opencv/build && \
-    cmake \
+RUN ls /var/local/opencv/ && cmake \
         -D CMAKE_BUILD_TYPE=RELEASE \
         -D CMAKE_INSTALL_PREFIX=/usr/local \
         -D WITH_GSTREAMER=ON \
@@ -43,10 +39,15 @@ RUN cd opencv/build && \
         -D WITH_TBB=ON \
         -D WITH_LIBV4L=ON \
         -D WITH_FFMPEG=ON \
+        -DOPENCV_GENERATE_PKGCONFIG=ON \
         .. && \
     # make -j8 if CPU has 8 cores to speed up things
     make -j8 && \
     make install
+
+WORKDIR /var/local
+
+RUN rm -r opencv
 
 # Checkout and build darknet
 # for debug

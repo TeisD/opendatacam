@@ -6,9 +6,10 @@ set -e
 # Each opendatacam release should set the correct version here and tag appropriatly on github
 # TODO: CHANGE BACK TO OPENDATACAM
 #VERSION=v3.0.0-beta.2
-VERSION=
+VERSION=development
 #BASE_URL=https://raw.githubusercontent.com/opendatacam/opendatacam
-BASE_URL=localhost:3000
+#BASE_URL=localhost:3000
+BASE_URL=https://raw.githubusercontent.com/teisd/opendatacam
 
 PLATFORM=undefined
 INDEX=undefined
@@ -85,7 +86,7 @@ case $argument in
     wget -N ${BASE_URL}/${VERSION}/platforms/${PLATFORM}/run.sh
 
     echo "Set the run script to version: $VERSION ..."
-    sed -i ".bak" -e "s/OPENDATACAM_VERSION/$VERSION/g" run.sh
+    sed -i -e "s/OPENDATACAM_VERSION/$VERSION/g" run.sh
 
     # Chmod to give exec permissions
     chmod +x run.sh
